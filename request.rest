@@ -9,6 +9,6 @@ Content-Type: application/json
     "LastName": "Larreal",
     "Email": "adrian@pulsarelectronic.com",
     "IsActive": 1,
-    "RoleName": "Engineer",
-    "AccessLevel": 1
+    "RoleName": "Engineer"
+    
 }
