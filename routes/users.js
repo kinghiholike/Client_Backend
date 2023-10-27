@@ -104,7 +104,7 @@ res.cookie('token', token, { httpOnly: false });
 // Send a JSON response
 res.status(200).json({token,
   message: 'Login successful, redirecting...',
-  redirectTo: '/dash.html' // Include the URL to redirect to in the response
+  redirectTo: '/dash.html' 
 });
 
 
