@@ -43,8 +43,8 @@ db.connect((err) => {
     return;
   }
   console.log("Successfully connected to AWS RDS database");
-  app.listen(process.env.PORT || 4000, () => {
-    console.log(`Server is running on port ${process.env.PORT || 4000}`);
+  app.listen(process.env.PORT || 8080, () => {
+    console.log(`Server is running on port ${process.env.PORT || 8080}`);
   });
 });
 

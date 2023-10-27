@@ -64,7 +64,7 @@ const validateEmail = (Email) => {
 };
 
 
-// // Sign-In route
+// Sign-In route
 router.post('/signin', (req, res) => {
   const { Email, Password } = req.body;
 
@@ -97,13 +97,18 @@ router.post('/signin', (req, res) => {
         enviroment.SECRET_KEY,
         { expiresIn: '30m' }
       );
-      // console.log(enviroment.SECRET_KEY);
 
-      // Save the token in a cookie and show the response which includes the token
-      res.cookie('token', token, {httpOnly: true});
-      res.status(200).json({
-        token
-      });
+      // Set the cookie
+res.cookie('token', token, { httpOnly: false });
+
+// Send a JSON response
+res.status(200).json({token,
+  message: 'Login successful, redirecting...',
+  redirectTo: '/dash.html' // Include the URL to redirect to in the response
+});
+
+
+
     });
   });
 });
