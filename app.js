@@ -3,23 +3,39 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+// const corsOptions = require('cors');
 
 var app = express();
-const corsOptions = {
-  origin: '*', 
-  credentials: true,
-  optionSuccessStatus: 200,
-};
 
+
+
+app.use(cors({
+origin: '*', 
+credentials: true,
+optionSuccessStatus: 200,}
+  
+));
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'secret',
+  resave:false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true,
+    maxAge:1000 * 60 * 60 *  24
+  }
+
+}))
 
 app.use('/', indexRouter);
 app.use('/', usersRouter);
@@ -43,8 +59,8 @@ db.connect((err) => {
     return;
   }
   console.log("Successfully connected to AWS RDS database");
-  app.listen(process.env.PORT || 8080, () => {
-    console.log(`Server is running on port ${process.env.PORT || 8080}`);
+  app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is running on port ${process.env.PORT || 5000}`);
   });
 });
 
