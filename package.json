@@ -22,6 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "node-geocoder": "^3.29.0",
     "nodemon": "^3.0.1",
     "validator": "^13.11.0",
     "validatore": "^1.0.1"

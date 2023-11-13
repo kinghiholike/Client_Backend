@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const NodeGeocoder = require('node-geocoder');
 
 const config = process.env;
 const enviroment = process.env;
@@ -11,6 +12,7 @@ const validator = require('validator');
 const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv'); // Import dotenv
 const connection = require("../db");
+const e = require('cors');
 router.use(cookieParser());
 router.use(
   session({
@@ -26,16 +28,125 @@ dotenv.config();
 
 
 
+//eMAIL VALIDATION MIDDLEWARE
+const validateEmail = (Email) => {
+  if (!validator.isEmail(Email)) {
+    return false;
+  }
+  return true;
+};
+
+
+//oPTIONS
+const options = {
+  provider: 'google',
+
+  // Optional depending on the providers
+  // fetch: customFetchImplementation,
+  apiKey: 'AIzaSyA1b-nVLFTCT4rxGdj5HdTZ3ULOYBYosAM', // for Mapquest, OpenCage, Google Premier
+  formatter: null // 'gpx', 'string', ...
+};
+//geocoder
+const geocoder = NodeGeocoder(options);
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
+
+
+// // Sign-Up route
+// router.post('/signup', async (req, res) => {
+//   const { Username, Password, FirstName,  MeterDRN, LastName, Email, IsActive, RoleName } = req.body;
+
+//   // Validate inputs
+//   if (!Username || !Password || !FirstName || !MeterDRN || !LastName || !Email || !IsActive || !RoleName || !validateEmail(Email)) {
+//     return res.status(400).json({ error: 'Invalid input data' });
+//   }
+
+//   try {
+//     console.log('Received registration request with data:');
+//     console.log('Request Body:', req.body);
+
+//     const hashedPassword = await bcrypt.hash(Password, 10);
+
+//     connection.query(
+//       'INSERT INTO users (Username, Password, FirstName, MeterDRN, LastName, Email, IsActive, RoleName) VALUES (?, ?, ?, ?, ?, ?, ? ,?)',
+//       [Username, hashedPassword, FirstName, LastName, Email, IsActive, RoleName],
+//       (err, result) => {
+//         if (err) {
+//           console.error('Registration error:', err);
+//           return res.json(500).json({ error: 'Registration failed', err });
+//         }
+//         console.log('Registration successful');
+
+//         // Define the 'title' variable for the template
+//         // const title = 'Signup Page';
+
+//         // // Pass 'title' to the template
+//         // res.render('your_template', { title: title });
+//       }
+//     );
+//   } catch (error) {
+//     console.error('Error during registration:', error);
+//     res.status(500).json({ error: 'Registration failed', err });
+//   }
+
+
+// });
+
+
+
+// ///////
+
+// //Get User_Profile
+
+// const findUserQuery = 'SELECT Longitude, Lat  FROM MeterLocationInfoTable WHRE meterdrn =  ?' ;
+  
+
+// connection.query(findUserQuery, [MeterDRN], (err, results) => {
+//   if (err) {
+//     return res.status(500).json({ error: 'Database query failed', err });
+//   }
+
+//   if (results.length === 0) {
+//     return res.status(404).json({ error: 'User not found' });
+//   }
+
+//   const user = results[0];
+//   const latitude = user.latitude;
+//   const longitude = user.longitude;
+
+//   // Perform reverse geocoding to get location information
+//   NodeGeocoder.reverse({ lat: latitude, lon: longitude })
+//     .then((geocodingRes) => {
+//       const address = geocodingRes[0].formattedAddress;
+
+//       // Include additional user information in the response
+//       const userData = {
+//         MeterDRN,
+//         address,
+//       };
+
+     
+
+//       // Send the response to the client
+//       res.status(200).json({ message: 'User profile pulled succesfully', userData });
+//     })
+//     .catch((geocodingError) => {
+//       console.error('Error fetching location:', geocodingError);
+//       res.status(500).json({ error: 'Error fetching location', details: geocodingError.message });
+//     });
+// });
+
+
+
 // Sign-Up route
 router.post('/signup', async (req, res) => {
-  const { Username, Password, FirstName, LastName, Email, IsActive, RoleName } = req.body;
+  const { Username, Password, FirstName, MeterDRN, LastName, Email, IsActive, RoleName } = req.body;
 
   // Validate inputs
-  if (!Username || !Password || !FirstName || !LastName || !Email || !IsActive || !RoleName || !validateEmail(Email)) {
+  if (!Username || !Password || !FirstName || !MeterDRN || !LastName || !Email || !IsActive || !RoleName || !validateEmail(Email)) {
     return res.status(400).json({ error: 'Invalid input data' });
   }
 
@@ -46,43 +157,30 @@ router.post('/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(Password, 10);
 
     connection.query(
-      'INSERT INTO users (Username, Password, FirstName, LastName, Email, IsActive, RoleName) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [Username, hashedPassword, FirstName, LastName, Email, IsActive, RoleName],
+      'INSERT INTO users (Username, Password, FirstName, MeterDRN, LastName, Email, IsActive, RoleName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [Username, hashedPassword, FirstName, MeterDRN, LastName, Email, IsActive, RoleName],
       (err, result) => {
         if (err) {
           console.error('Registration error:', err);
-          return res.json(500).json({ error: 'Registration failed', err });
+          return res.status(500).json({ error: 'Registration failed', err });
         }
+
         console.log('Registration successful');
-
-        // Define the 'title' variable for the template
-        // const title = 'Signup Page';
-
-        // // Pass 'title' to the template
-        // res.render('your_template', { title: title });
-      }
-    );
+    });
   } catch (error) {
     console.error('Error during registration:', error);
-    res.status(500).json({ error: 'Registration failed', err });
+    res.status(500).json({ error: 'Registration failed', error });
   }
 });
-
-const validateEmail = (Email) => {
-  if (!validator.isEmail(Email)) {
-    return false;
-  }
-  return true;
-};
 
 
 // Sign-In route
 router.post('/signin', (req, res) => {
-  const { Email, Password } = req.body;
+  const { Username, Password } = req.body;
 
-  // Find the user by email
-  const findUserQuery = 'SELECT * FROM users WHERE email = ?';
-  connection.query(findUserQuery, [Email], (err, results) => {
+  // Find the user by Username
+  const findUserQuery = 'SELECT * FROM users WHERE username = ?';
+  connection.query(findUserQuery, [Username], (err, results) => {
     if (err) {
       return res.status(500).json({ error: 'Database query failed', err });
     }
@@ -106,28 +204,71 @@ router.post('/signin', (req, res) => {
       // Set user data in the session
       req.session.user = {
         UserID: user.UserID,
-        email: user.email,
+        Username: user.Username,
         AccessLevel: user.AccessLevel,
       };
+      
 
       // Generate a JWT with user's AccessLevel
       const token = jwt.sign(
-        { UserID: user.UserID, email: user.email, AccessLevel: user.AccessLevel },
-        'your-secret-key', // Change this to your JWT secret key
+        { UserID: user.UserID, Username: user.Username, AccessLevel: user.AccessLevel },
+        enviroment.SECRET_KEY, 
         { expiresIn: '30m' }
       );
 
       // Set the cookie
-      res.cookie('token', token, { httpOnly: true ,sameSite: 'Lax', secure: false});
+      res.cookie('token', token, { httpOnly: true, sameSite: 'Lax', secure: false });
+      // res.status(200).json({token});
+    })
 
-      // Send a JSON response
-      res.status(200).json({
-        message: 'Login successful, redirecting...',
-        token,
-        redirectTo: '/dash.html',
+      // Now, let's get the user profile based on MeterDRN
+      const findUserQuery = 'SELECT Longitude, Lat FROM MeterLocationInfoTable WHERE DRN = ?';
+
+      connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
+        if (error) {
+          return res.status(500).json({ error: 'Database query failed', error });
+        }
+
+        if (results.length === 0) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+
+        const userLocation = results[0];
+        const latitude = userLocation.Lat;
+        const longitude = userLocation.Longitude;
+
+        // Perform reverse geocoding to get location information
+        geocoder.reverse({ lat: latitude, lon: longitude })
+  .then((geocodingRes) => {
+    const formattedAddress = geocodingRes[0].formattedAddress;
+
+    // Extract components from the formatted address
+    const addressComponents = formattedAddress.split(', ');
+
+    // Assume the components are in a specific order (you may need to adjust this based on the actual format)
+    const [streetName, erfNumber, cityName] = addressComponents;
+
+    // Include additional user information in the response
+    const userData = {
+      MeterDRN: user.MeterDRN,
+      streetName,
+      erfNumber,
+      cityName,
+      
+    };
+
+    // Send the response to the client
+    res.status(200).json({ message: 'User profile pulled successfully', userData});
+  })
+  .catch((geocodingError) => {
+    console.error('Error fetching location:', geocodingError);
+    res.status(500).json({ error: 'Error fetching location', details: geocodingError.message });
+  });
+
       });
     });
   });
-});
+
+
 
 module.exports = router;
