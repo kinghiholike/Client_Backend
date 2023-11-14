@@ -16,7 +16,7 @@ Content-Type: application/json
 ###
 post http://localhost:3000/signin
 authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXRlckRSTiI6IjAyNjAwNjY1NDYxNjkiLCJpYXQiOjE2NzU5MTIwMTF9.4UAhjczOReOuiFg7Gb3Yd9C6E_QwtRx0yvx6wO_YXns
-Content-Type: application/json
+Content-Type: application/json   
 
 {
     

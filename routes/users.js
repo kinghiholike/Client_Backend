@@ -182,11 +182,12 @@ router.post('/signin', (req, res) => {
   const findUserQuery = 'SELECT * FROM users WHERE username = ?';
   connection.query(findUserQuery, [Username], (err, results) => {
     if (err) {
-      return res.status(500).json({ error: 'Database query failed', err });
+      return res.status(500).json({ error: 'Database query failed', details: err });
+      
     }
 
     if (results.length === 0) {
-      return res.status(401).json({ error: 'Authentication failed', err });
+      return res.status(401).json({ error: 'Authentication failed', details: 'User does not exist.' });
     }
 
     // Compare passwords
@@ -194,11 +195,11 @@ router.post('/signin', (req, res) => {
 
     bcrypt.compare(Password, user.Password, (err, isMatch) => {
       if (err) {
-        return res.status(500).json({ error: 'Password comparison failed', err });
+        return res.status(500).json({ error: 'Password comparison failed', details: err });
       }
 
       if (!isMatch) {
-        return res.status(401).json({ error: 'Authentication failed', err });
+        return res.status(401).json({ error: 'Authentication failed', details: 'Incorrect password.' });
       }
 
       // Set user data in the session
@@ -207,30 +208,28 @@ router.post('/signin', (req, res) => {
         Username: user.Username,
         AccessLevel: user.AccessLevel,
       };
-      
+
 
       // Generate a JWT with user's AccessLevel
       const token = jwt.sign(
         { UserID: user.UserID, Username: user.Username, AccessLevel: user.AccessLevel },
-        enviroment.SECRET_KEY, 
+        enviroment.SECRET_KEY,
         { expiresIn: '30m' }
       );
 
       // Set the cookie
       res.cookie('token', token, { httpOnly: true, sameSite: 'Lax', secure: false });
-      // res.status(200).json({token});
-    })
 
-      // Now, let's get the user profile based on MeterDRN
+      // Getting the user profile based on MeterDRN
       const findUserQuery = 'SELECT Longitude, Lat FROM MeterLocationInfoTable WHERE DRN = ?';
 
       connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
         if (error) {
-          return res.status(500).json({ error: 'Database query failed', error });
+          return res.status(500).json({ error: 'Database query failed', details: error });
         }
 
         if (results.length === 0) {
-          return res.status(404).json({ error: 'User not found' });
+          return res.status(404).json({ error: 'User not found', details: 'The user with the provided MeterDRN is not found.' });
         }
 
         const userLocation = results[0];
@@ -242,22 +241,25 @@ router.post('/signin', (req, res) => {
   .then((geocodingRes) => {
     const formattedAddress = geocodingRes[0].formattedAddress;
 
-    // Extract components from the formatted address
+    // components from the formatted address
     const addressComponents = formattedAddress.split(', ');
 
-    // Assume the components are in a specific order (you may need to adjust this based on the actual format)
-    const [streetName, erfNumber, cityName] = addressComponents;
+    // format of data
+    const [streetName,cityName,countryName] = addressComponents;
 
-    // Include additional user information in the response
+    // additional user information in the response
     const userData = {
       MeterDRN: user.MeterDRN,
+      UserID: user.UserID,
+      FirstName: user.FirstName,
+      LastName: user.LastName,
+      Email: user.Email,
       streetName,
-      erfNumber,
       cityName,
-      
+      countryName
     };
 
-    // Send the response to the client
+    // Sending the response to the client
     res.status(200).json({ message: 'User profile pulled successfully', userData});
   })
   .catch((geocodingError) => {
@@ -268,6 +270,7 @@ router.post('/signin', (req, res) => {
       });
     });
   });
+});
 
 
 
