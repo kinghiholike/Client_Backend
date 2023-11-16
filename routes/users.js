@@ -13,6 +13,7 @@ const rateLimit = require('express-rate-limit');
 const dotenv = require('dotenv'); // Import dotenv
 const connection = require("../db");
 const e = require('cors');
+const { cookie } = require('request');
 router.use(cookieParser());
 router.use(
   session({
@@ -176,12 +177,15 @@ router.post('/signup', async (req, res) => {
 
 // Sign-In route
 router.post('/signin', (req, res) => {
-  const { Username, Password } = req.body;
+  const { Email, Password } = req.body;
+  console.log(Email,Password);
 
   // Find the user by Username
-  const findUserQuery = 'SELECT * FROM users WHERE username = ?';
-  connection.query(findUserQuery, [Username], (err, results) => {
+  const findUserQuery = 'SELECT * FROM users WHERE email = ?';
+  connection.query(findUserQuery, [Email], (err, results) => {
     if (err) {
+      console.error('Error querying the database:', err);
+      console.log(err);
       return res.status(500).json({ error: 'Database query failed', details: err });
       
     }
@@ -205,23 +209,24 @@ router.post('/signin', (req, res) => {
       // Set user data in the session
       req.session.user = {
         UserID: user.UserID,
-        Username: user.Username,
+        Email: user.Email,
         AccessLevel: user.AccessLevel,
       };
 
 
       // Generate a JWT with user's AccessLevel
       const token = jwt.sign(
-        { UserID: user.UserID, Username: user.Username, AccessLevel: user.AccessLevel },
+        { UserID: user.UserID, Email: user.Email, AccessLevel: user.AccessLevel },
         enviroment.SECRET_KEY,
         { expiresIn: '30m' }
       );
 
       // Set the cookie
-      res.cookie('token', token, { httpOnly: true, sameSite: 'Lax', secure: false });
+      res.cookie('token', token, { httpOnly: true });
+      // console.log(cookie);
 
       // Getting the user profile based on MeterDRN
-      const findUserQuery = 'SELECT Longitude, Lat FROM MeterLocationInfoTable WHERE DRN = ?';
+      const findUserQuery = 'SELECT Lat, Longitude FROM MeterLocationInfoTable WHERE DRN = ?';
 
       connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
         if (error) {

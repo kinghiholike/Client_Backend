@@ -3,25 +3,24 @@ authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXRlckRSTiI6IjAyN
 Content-Type: application/json
 
 {
-    "Username": "Baru",
+    "Username": "King",
     "Password": "12345678",
     "MeterDRN": "0260152877924",
-    "FirstName": "Muk",
-    "LastName": "Kendwa",
-    "Email": "baru@pulsarelectronic.com",
+    "FirstName": "King",
+    "LastName": "Hiholike",
+    "Email": "king@pulsarelectronic.com",
     "IsActive": 1,
     "RoleName": "User"
     
 }
 ###
-post http://localhost:3000/signin
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXRlckRSTiI6IjAyNjAwNjY1NDYxNjkiLCJpYXQiOjE2NzU5MTIwMTF9.4UAhjczOReOuiFg7Gb3Yd9C6E_QwtRx0yvx6wO_YXns
+post http://localhost:5000/signin 
 Content-Type: application/json   
 
 {
+    "Email": "baru@pulsarelectronic.com",
+    "Password": "12345678"
     
-    "Password": "12345678",
-    "Username": "Baru"
     
     
 }
