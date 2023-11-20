@@ -8,7 +8,7 @@ Content-Type: application/json
     "MeterDRN": "0260152877924",
     "FirstName": "King",
     "LastName": "Hiholike",
-    "Email": "king@pulsarelectronic.com",
+    "Email": "@pulsarelectronic.com",
     "IsActive": 1,
     "RoleName": "User"
     
@@ -24,4 +24,9 @@ Content-Type: application/json
     
     
 }
+###
+get http://localhost:5000/protected?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI0NSIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjpudWxsLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIjExMiBCbGFjayBSb2NrIFN0cmVldCIsIldpbmRob2VrIiwiTmFtaWJpYSJdLCJpYXQiOjE3MDA0ODc1OTgsImV4cCI6MTcwMDQ4OTM5OH0.FIKu8Fjrd7Ts--7BmxQyO6n6wA_1Qmcug87nGCfKOgk
 
+
+###
+get 
