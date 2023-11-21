@@ -39,11 +39,11 @@ Content-Type: application/json
 ###
 
 post http://localhost:5000/turn-meter-on-off
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI0NSIsIk1ldGVyRFJOIjoiMDI2MDExMTIyMjMzMyIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjpudWxsLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIjExMiBCbGFjayBSb2NrIFN0cmVldCIsIldpbmRob2VrIiwiTmFtaWJpYSJdLCJpYXQiOjE3MDA1NjEwNjYsImV4cCI6MTcwMDU2Mjg2Nn0.pScvYtNE7NhvObP7QELz8qEJzIR9R9JPbltSIRnbvvM
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI0NSIsIk1ldGVyRFJOIjoiMDI2MDExMTIyMjMzMyIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjpudWxsLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIjExMiBCbGFjayBSb2NrIFN0cmVldCIsIldpbmRob2VrIiwiTmFtaWJpYSJdLCJpYXQiOjE3MDA1NzY0MTMsImV4cCI6MTcwMDU3ODIxM30.jUdV6QiQblsQ7Oji5lvhL3QMkP3K1K-PrYP6rDnvFH0
 Content-Type: application/json
 
 {
-  "status": 0
+  "state": 0
 }
 ###
 
@@ -52,5 +52,5 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiI0NSIsIk1ldGVy
 Content-Type: application/json
 
 {
-  "status": 0
+  "state": 0
 }

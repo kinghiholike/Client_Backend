@@ -11,16 +11,16 @@ dotenv.config();
 const environment = process.env;
 // Mocked data for demonstration purposes
 let meterStatus = {
-  meterDRN1: 1, // 1 for on, 0 for off
-  meterDRN2: 0,
+  MeterDRN: 1, // 1 for on, 0 for off
+  MeterDRN: 0,
 };
 
 let heaterStatus = {
-    meterDRN1: 1, // 1 for on, 0 for off
-    meterDRN2: 0,
+  MeterDRN: 1, // 1 for on, 0 for off
+  MeterDRN: 0,
   };
   
-// Middleware to verify the token and extract meterDRN
+// Middleware to verify the token and extract MeterDRN
 function authenticateToken(req, res, next) {
   // Get the token from the request header
   const token = req.header('Authorization');
@@ -36,48 +36,52 @@ function authenticateToken(req, res, next) {
       return res.status(403).json({ error: 'Forbidden: Invalid token' });
     }
 
-    // Extract meterDRN from the token payload
-    const { meterDRN } = tokenPayload;
+    // Extract MeterDRN from the token payload
+    const { MeterDRN } = tokenPayload;
+    console.log(MeterDRN);
 
-    // Attach the meterDRN to the request object for later use
-    req.tokenPayload = { meterDRN };
+    // Attach the MeterDRN to the request object for later use
+    req.tokenPayload = { MeterDRN };
+    
 
     // Move to the next middleware or route handler
     next();
   });
 }
 
-// Route to turn the meter on or off based on the meterDRN from the token
+// Route to turn the meter on or off based on the MeterDRN from the token
 router.post('/turn-meter-on-off', authenticateToken, (req, res) => {
-  const { meterDRN } = req.tokenPayload;
+  const { MeterDRN } = req.tokenPayload;
+  console.log(MeterDRN);
 
   // Validate the request body
-  const { status } = req.body;
-  if (status === undefined || (status !== 0 && status !== 1)) {
-    return res.status(400).json({ error: 'Invalid status value. Use 0 for off or 1 for on.' });
+  const { state } = req.body;
+  if (state === undefined || (state !== 0 && state !== 1)) {
+    return res.state(400).json({ error: 'Invalid state value. Use 0 for off or 1 for on.' });
   }
 
-  // Update the meter status based on the request
-  meterStatus[meterDRN] = status;
+  // Update the meter state based on the request
+  meterStatus[MeterDRN] = state;
 
-  // Respond with the updated status
-  res.json({ meterDRN, status: meterStatus[meterDRN] });
+  // Respond with the updated state
+  res.json({ MeterDRN, state: meterStatus[MeterDRN] });
 });
 
 // Route to turn the heater on or off based on the heaterID from the token
 router.post('/turn-heater-on-off', authenticateToken, (req, res) => {
-    const { meterDRN } = req.tokenPayload;
+    const { MeterDRN } = req.tokenPayload;
+    console.log(MeterDRN);
   
     // Validate the request body
-    const { status } = req.body;
-    if (status === undefined || (status !== 0 && status !== 1)) {
-      return res.status(400).json({ error: 'Invalid status value. Use 0 for off or 1 for on.' });
+    const { state } = req.body;
+    if (state === undefined || (state !== 0 && state !== 1)) {
+      return res.state(400).json({ error: 'Invalid state value. Use 0 for off or 1 for on.' });
     }
   
-    // Update the heater status based on the request
-    heaterStatus[meterDRN] = status;
+    // Update the heater state based on the request
+    heaterStatus[MeterDRN] = state;
   
-    // Respond with the updated status
-    res.json({ meterDRN, status: heaterStatus[meterDRN] });
+    // Respond with the updated state
+    res.json({ MeterDRN, state: heaterStatus[MeterDRN] });
   });
 module.exports = router;
