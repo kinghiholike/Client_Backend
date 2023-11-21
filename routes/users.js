@@ -17,7 +17,7 @@ const { cookie } = require('request');
 router.use(cookieParser());
 
 dotenv.config();
-
+const environment = process.env;
 
 
 //eMAIL VALIDATION MIDDLEWARE
@@ -122,17 +122,17 @@ router.post('/signin', (req, res) => {
         AccessLevel: user.AccessLevel,
       };
 
-      // Generate a JWT with user's AccessLevel and other user data
-      const token = jwt.sign(
-        {
-          UserID: user.UserID,
-          Email: user.Email,
-          AccessLevel: user.AccessLevel,
-          // Include other user data as needed
-        },
-        process.env.SECRET_KEY,
-        { expiresIn: '30m' }
-      );
+      // // Generate a JWT with user's AccessLevel and other user data
+      // const token = jwt.sign(
+      //   {
+      //     UserID: user.UserID,
+      //     Email: user.Email,
+      //     MeterDRN: user.MeterDRN,
+      //     // Include other user data as needed
+      //   },
+      //   process.env.SECRET_KEY,
+      //   { expiresIn: '30m' }
+      // );
 
       // Getting the user profile based on MeterDRN
 const findUserQuery = 'SELECT Lat, Longitude FROM MeterLocationInfoTable WHERE DRN = ?';
@@ -177,13 +177,14 @@ connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
       const token = jwt.sign(
         {
           UserID: user.UserID,
+          MeterDRN:user.MeterDRN,
           Email: user.Email,
           AccessLevel: user.AccessLevel,
           FirstName: user.FirstName,
           LastName: user.LastName,
           addressComponents
         },
-        process.env.SECRET_KEY,
+        environment.SECRET_KEY,
         { expiresIn: '30m' }
       );
 
@@ -228,7 +229,7 @@ function authenticateToken(req, res, next) {
     return res.sendStatus(401);
   }
 
-  jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+  jwt.verify(token, environment.SECRET_KEY, (err, user) => {
     if (err) {
       return res.sendStatus(403);
     }

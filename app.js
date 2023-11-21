@@ -10,6 +10,7 @@ const rateLimit = require('express-rate-limit');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const forgotPasswordRoutes = require('./routes/forgotPasswordRoutes');
+const powerOffAndOnRoutes = require('./routes/powerOffAndOnRoutes');
 // const corsOptions = require('cors');
 //Rate limiter 
 const limiter = rateLimit({
@@ -44,20 +45,9 @@ app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'secret',
-  resave:false,
-  saveUninitialized: false,
-  cookie: {
-    secure: true,
-    maxAge:1000 * 60 * 60 *  24
-  }
 
-}))
 
-app.use('/', indexRouter);
-app.use('/', usersRouter);
-app.use('/',forgotPasswordRoutes);
+
 
 
 
@@ -69,7 +59,10 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-
+app.use('/', indexRouter);
+app.use('/', usersRouter);
+app.use('/', forgotPasswordRoutes);
+app.use('/', powerOffAndOnRoutes);
 
 
 const db = require('./db'); // Import the database connection from db.js
