@@ -189,7 +189,7 @@ connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
       );
 
       // Set the token in a cookie
-      res.cookie('Athorisationfrombackend=', token, {
+      res.cookie('token', token, {
         httpOnly: false,
         credentials: 'include',
         maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds
