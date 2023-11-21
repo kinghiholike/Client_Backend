@@ -29,4 +29,9 @@ get http://localhost:5000/protected?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e
 
 
 ###
-get 
+post http://localhost:5000/forgot-password
+Content-Type: application/json
+
+{
+  "Email": "baru@pulsarelectronic.com"
+}

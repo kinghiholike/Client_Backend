@@ -9,6 +9,7 @@ const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const forgotPasswordRoutes = require('./routes/forgotPasswordRoutes');
 // const corsOptions = require('cors');
 //Rate limiter 
 const limiter = rateLimit({
@@ -56,6 +57,7 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/', usersRouter);
+app.use('/',forgotPasswordRoutes);
 
 
 
