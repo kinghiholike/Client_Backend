@@ -91,7 +91,7 @@ router.post('/signin', (req, res) => {
   console.log(Email, Password);
 
   // Find the user by Email
-  const findUserQuery = 'SELECT * FROM users WHERE email = ?';
+  const findUserQuery = 'SELECT * FROM SystemUsers WHERE email = ?';
   connection.query(findUserQuery, [Email], (err, results) => {
     if (err) {
       console.error('Error querying the database:', err);
@@ -189,7 +189,7 @@ connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
       );
 
       // Set the token in a cookie
-      res.cookie('token', token, {
+      res.cookie('accessToken', token, {
         httpOnly: false,
         credentials: 'include',
         maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds

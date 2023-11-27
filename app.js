@@ -13,11 +13,11 @@ const forgotPasswordRoutes = require('./routes/forgotPasswordRoutes');
 const powerOffAndOnRoutes = require('./routes/powerOffAndOnRoutes');
 // const corsOptions = require('cors');
 //Rate limiter 
-const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 5, // limit each IP to 5 requests per windowMs
-  message: 'Too many requests, please try again later.',
-});
+// const limiter = rateLimit({
+//   windowMs: 1 * 60 * 1000, // 1 minute
+//   max: 5, // limit each IP to 5 requests per windowMs
+//   message: 'Too many requests, please try again later.',
+// });
 
 var app = express();
 
@@ -41,7 +41,7 @@ app.use(
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(limiter);
+// app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
