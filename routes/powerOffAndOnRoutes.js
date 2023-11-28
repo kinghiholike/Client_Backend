@@ -86,7 +86,7 @@ router.get('/get-meter-state', authenticateToken, (req, res) => {
     const meterState = results[0].state;
 
     // Respond with the current state of the meter
-    res.json({  meterState: meterState ? 1 : 0 });
+    res.json( meterState);
   });
 });
 
@@ -107,12 +107,14 @@ router.get('/get-heater-state', authenticateToken, (req, res) => {
       return res.status(404).json({ error: 'Heater not found in the database' });
     }
 
+    // Assuming the state is a boolean or an integer (1 or 0)
     const heaterState = results[0].state;
 
-    // Respond with the current state of the heater
-    res.json({ heaterState: heaterState ? 1 : 0 });
+    // Respond with the current state of the heater as a numeric value (1 or 0)
+    res.json(heaterState);
   });
 });
+
 
 
 module.exports = router;
