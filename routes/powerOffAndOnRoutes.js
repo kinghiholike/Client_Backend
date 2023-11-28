@@ -36,7 +36,7 @@ router.post('/turn-meter-on-off', authenticateToken, (req, res) => {
     }
 
     // Respond with the updated state
-    res.json({ MeterDRN, state });
+    res.json({  state });
   });
 });
 
@@ -63,7 +63,7 @@ router.post('/turn-heater-on-off', authenticateToken, (req, res) => {
     }
 
     // Respond with the updated state
-    res.json({ MeterDRN, state});
+    res.json({ state});
   });
 });
 // Route to get the state of the meter based on the MeterDRN from the token
@@ -86,14 +86,14 @@ router.get('/get-meter-state', authenticateToken, (req, res) => {
     const meterState = results[0].state;
 
     // Respond with the current state of the meter
-    res.json({ MeterDRN, state: meterState });
+    res.json({  meterState: meterState ? 1 : 0 });
   });
 });
 
 // Route to get the state of the heater based on the heaterID from the token
 router.get('/get-heater-state', authenticateToken, (req, res) => {
   const { MeterDRN } = req.tokenPayload;
-  
+
   // Query the database to get the current state of the heater
   const selectQuery = 'SELECT state FROM MeterHeaterStateTable WHERE MeterDRN = ?';
 
@@ -110,7 +110,7 @@ router.get('/get-heater-state', authenticateToken, (req, res) => {
     const heaterState = results[0].state;
 
     // Respond with the current state of the heater
-    res.json({ MeterDRN, state: heaterState });
+    res.json({ heaterState: heaterState ? 1 : 0 });
   });
 });
 

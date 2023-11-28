@@ -9,7 +9,7 @@ const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const { expireCookieMiddleware } = require('./middleware/cookieMiddleware');
+// const { expireCookieMiddleware } = require('./middleware/cookieMiddleware');
 const forgotPasswordRoutes = require('./routes/forgotPasswordRoutes');
 const powerOffAndOnRoutes = require('./routes/powerOffAndOnRoutes');
 const meterTokenRoutes = require('./routes/meterTokenRoutes');
@@ -39,7 +39,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     cookie: { secure: false ,
-      maxAge: 2 * 60 * 1000}, 
+      maxAge: 30 * 60 * 1000}, 
   })
 )
 
@@ -48,7 +48,7 @@ app.use(express.json());
 // app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(expireCookieMiddleware);
+// app.use(expireCookieMiddleware);
 app.use(express.static(path.join(__dirname, 'public')));
 
 

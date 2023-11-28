@@ -189,16 +189,17 @@ connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
       );
 
       // Set the token in a cookie
-      res.cookie('accessToken', token, {
+      res.cookie('accessToken=', token, {
         httpOnly: false,
         credentials: 'include',
-        maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds
+        maxAge: 40 * 60 * 1000, // 30 minutes in milliseconds
       });
 
       // Send the response with both token and userData
       res.status(200).json({
         message: 'User profile pulled successfully',
         userData,
+        token,
         redirect: (`/protected?token=${encodeURIComponent(token)}`)
         
       });
