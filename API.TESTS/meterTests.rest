@@ -9,11 +9,11 @@ Content-Type: application/json
 ###
 post http://localhost:5000/turn-meter-on-off
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTE3NTU4OCwiZXhwIjoxNzAxMTc3Mzg4fQ.KWX4uQCy-nYgztKZi5w1N8Ix6H_j7_O9IlZMbK4vkF0
 
 {
   
-  "state": 0,
+  "state": "0",
   "reason": "test",
   "user": "King"
 }
@@ -25,7 +25,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVy
 Content-Type: application/json
 
 {
-  "state": 0,
+  "state": "0",
   "reason": "test",
   "user": "king"
 }
@@ -33,7 +33,7 @@ Content-Type: application/json
 ###
 get http://localhost:5000/get-heater-state
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTE3NTU4OCwiZXhwIjoxNzAxMTc3Mzg4fQ.KWX4uQCy-nYgztKZi5w1N8Ix6H_j7_O9IlZMbK4vkF0
 
 ####
 get http://localhost:5000/get-meter-state

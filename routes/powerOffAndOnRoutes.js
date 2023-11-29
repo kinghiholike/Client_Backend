@@ -19,7 +19,7 @@ router.post('/turn-meter-on-off', authenticateToken, (req, res) => {
   const { state, reason, user } = req.body;
 
   // Validate the request body
-  if (state === undefined || (state !== 0 && state !== 1)) {
+  if (state === undefined || (state !== "0" && state !== "1")) {
     return res.status(400).json({ error: 'Invalid state value. Use 0 for off or 1 for on.' });
   }
 
@@ -46,7 +46,7 @@ router.post('/turn-heater-on-off', authenticateToken, (req, res) => {
   const { state, reason, user } = req.body;
 
   // Validate the request body
-  if (state === undefined || (state !== 0 && state !== 1)) {
+  if (state === undefined || (state !== "0" && state !== "1")) {
     return res.status(400).json({ error: 'Invalid state value. Use 0 for off or 1 for on.' });
   }
 
