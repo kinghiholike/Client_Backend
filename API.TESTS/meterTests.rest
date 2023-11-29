@@ -1,4 +1,4 @@
-post http://localhost:5000/update-token
+post http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/update-token
 authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5NTEzNywiZXhwIjoxNzAxMDk2OTM3fQ.mznU7fXZOdg8vnBnVtwOwM1ZsmF3g0QfVLv4RhGKN9s
 Content-Type: application/json
 
@@ -7,7 +7,7 @@ Content-Type: application/json
   "user": "King"
 }
 ###
-post http://localhost:5000/turn-meter-on-off
+post http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/turn-meter-on-off
 Content-Type: application/json
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTE3NTU4OCwiZXhwIjoxNzAxMTc3Mzg4fQ.KWX4uQCy-nYgztKZi5w1N8Ix6H_j7_O9IlZMbK4vkF0
 
@@ -20,7 +20,7 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVy
 
 ###
 
-post http://localhost:5000/turn-heater-on-off
+post http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/turn-heater-on-off
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
 Content-Type: application/json
 
@@ -31,11 +31,11 @@ Content-Type: application/json
 }
 
 ###
-get http://localhost:5000/get-heater-state
+get http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/get-heater-state
 Content-Type: application/json
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTE3NTU4OCwiZXhwIjoxNzAxMTc3Mzg4fQ.KWX4uQCy-nYgztKZi5w1N8Ix6H_j7_O9IlZMbK4vkF0
 
 ####
-get http://localhost:5000/get-meter-state
+get http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/get-meter-state
 Content-Type: application/json
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI

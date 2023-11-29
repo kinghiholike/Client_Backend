@@ -1,4 +1,4 @@
-post http://localhost:5000/signup
+post http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/signup
 authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXRlckRSTiI6IjAyNjAwNjY1NDYxNjkiLCJpYXQiOjE2NzU5MTIwMTF9.4UAhjczOReOuiFg7Gb3Yd9C6E_QwtRx0yvx6wO_YXns
 Content-Type: application/json
 
@@ -14,7 +14,7 @@ Content-Type: application/json
     
 }
 ###
-post http://localhost:5000/signin 
+post http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/signin 
 Content-Type: application/json   
 
 {
@@ -38,35 +38,35 @@ Content-Type: application/json
 
 ###
 
-post http://localhost:5000/turn-meter-on-off
-Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
+# post http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/turn-meter-on-off
+# Content-Type: application/json
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
 
-{
-  "MeterDRN": "0260152877924",
-  "state": 0,
-  "reason": "test",
-  "user": "King"
-}
+# {
+#   "MeterDRN": "0260152877924",
+#   "state": 0,
+#   "reason": "test",
+#   "user": "King"
+# }
 
-###
+# ###
 
-post http://localhost:5000/turn-heater-on-off
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
-Content-Type: application/json
+# post http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/turn-heater-on-off
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
+# Content-Type: application/json
 
-{
-  "state": 0,
-  "reason": "test",
-  "user": "king"
-}
+# {
+#   "state": 0,
+#   "reason": "test",
+#   "user": "king"
+# }
 
-###
-get http://localhost:5000/get-heater-state
-Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
+# ###
+# get http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/get-heater-state
+# Content-Type: application/json
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
 
-####
-get http://localhost:5000/get-meter-state
-Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI
+# ####
+# get http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/get-meter-state
+# Content-Type: application/json
+# authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5MTMwNiwiZXhwIjoxNzAxMDkzMTA2fQ.mLddzXsS0abMFDnBmNi8dVH5_ZfkQXUNUgdN516UySI

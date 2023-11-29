@@ -6,6 +6,8 @@ var logger = require('morgan');
 var session = require('express-session');
 const enviroment = process.env;
 const cors = require('cors');
+const request = require('request');
+
 const rateLimit = require('express-rate-limit');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
