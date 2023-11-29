@@ -26,11 +26,11 @@ function authenticateToken(req, res, next) {
     }
 
     // Extract MeterDRN from the token payload
-    const { MeterDRN } = tokenPayload;
-    console.log(MeterDRN);
+    const { DRN } = tokenPayload;
+    console.log(DRN);
 
-    // Attach the MeterDRN to the request object for later use
-    req.tokenPayload = { MeterDRN };
+    // Attach the DRN to the request object for later use
+    req.tokenPayload = { DRN };
     
 
     // Move to the next middleware or route handler

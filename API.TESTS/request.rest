@@ -3,14 +3,14 @@ authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXRlckRSTiI6IjAyN
 Content-Type: application/json
 
 {
-    "Username": "King",
-    "Password": "12345678",
-    "MeterDRN": "0260152877924",
-    "FirstName": "King",
-    "LastName": "Hiholike",
-    "Email": "@pulsarelectronic.com",
+    "Username": "Admin",
+    "Password": "Admin@123",
+    "DRN": "0260152877924",
+    "FirstName": "Admin",
+    "LastName": "Pulsar",
+    "Email": "admin@pulsar.com",
     "IsActive": 1,
-    "RoleName": "User"
+    "RoleName": "admin"
     
 }
 ###
@@ -18,22 +18,24 @@ post http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/signin
 Content-Type: application/json   
 
 {
-    "Email": "baru@pulsarelectronic.com",
-    "Password": "12345678"
+    "Email": "admin@pulsar.com",
+    "Password": "Admin@123"
     
     
     
 }
 ###
-get http://localhost:5000/protected?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA4Nzk1MywiZXhwIjoxNzAxMDg5NzUzfQ.9XNUzJqMD14g84lbGyUDFe3f_Jy3mEnuQyHdHPkuoO8
+get http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/protected?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiTWV0ZXJEUk4iOiIwMjYwMTUyODc3OTI0IiwiRW1haWwiOiJhZG1pbkBwdWxzYXIuY29tIiwiQWNjZXNzTGV2ZWwiOjEsIkZpcnN0TmFtZSI6IkFkbWluIiwiTGFzdE5hbWUiOiJQdWxzYXIiLCJhZGRyZXNzQ29tcG9uZW50cyI6WyJDMkdXKzVDSiIsIldpbmRob2VrIiwiTmFtaWJpYSJdLCJpYXQiOjE3MDEyNzIyNzQsImV4cCI6MTcwMTI3NDA3NH0.b18EA7Qjqwaf3hHfl7ifEiWgc7Lp1M6hxfBTwqIbzqE
 
 
 ###
-post http://localhost:5000/forgot-password
+post http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/forgot-password
 Content-Type: application/json
 
 {
-  "Email": "baru@pulsarelectronic.com"
+    "Email": "admin@pulsar.com",
+   
+   
 }
 
 ###

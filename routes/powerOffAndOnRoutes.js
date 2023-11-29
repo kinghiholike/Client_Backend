@@ -13,9 +13,9 @@ const environment = process.env;
 
 
 
-// Route to turn the meter on or off based on the MeterDRN from the token
+// Route to turn the meter on or off based on the DRN from the token
 router.post('/turn-meter-on-off', authenticateToken, (req, res) => {
-  const { MeterDRN } = req.tokenPayload;
+  const { DRN } = req.tokenPayload;
   const { state, reason, user } = req.body;
 
   // Validate the request body
@@ -24,12 +24,12 @@ router.post('/turn-meter-on-off', authenticateToken, (req, res) => {
   }
 
   // // Update the meter state based on the request
-  // meterStatus[MeterDRN] = state;
+  // meterStatus[DRN] = state;
 
   // Update the MySQL database
-  const updateQuery = 'UPDATE MeterMainsControlTable SET state = ?, reason = ?, user = ? WHERE MeterDRN = ?';
+  const updateQuery = 'UPDATE MeterMainsControlTable SET state = ?, reason = ?, user = ? WHERE DRN = ?';
 
-  connection.query(updateQuery, [state, reason, user, MeterDRN], (err, results) => {
+  connection.query(updateQuery, [state, reason, user, DRN], (err, results) => {
     if (err) {
       console.error('Error updating meter state in the database:', err);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -42,7 +42,7 @@ router.post('/turn-meter-on-off', authenticateToken, (req, res) => {
 
 // Route to turn the heater on or off based on the heaterID from the token
 router.post('/turn-heater-on-off', authenticateToken, (req, res) => {
-  const { MeterDRN } = req.tokenPayload;
+  const { DRN } = req.tokenPayload;
   const { state, reason, user } = req.body;
 
   // Validate the request body
@@ -51,12 +51,12 @@ router.post('/turn-heater-on-off', authenticateToken, (req, res) => {
   }
 
   // // Update the heater state based on the request
-  // heaterStatus[MeterDRN] = state;
+  // heaterStatus[DRN] = state;
 
   // Update the MySQL database
-  const updateQuery = 'UPDATE MeterHeaterControlTable SET state = ?, reason = ?, user = ? WHERE MeterDRN = ?';
+  const updateQuery = 'UPDATE MeterHeaterControlTable SET state = ?, reason = ?, user = ? WHERE DRN = ?';
 
-  connection.query(updateQuery, [state, reason, user, MeterDRN], (err, results) => {
+  connection.query(updateQuery, [state, reason, user, DRN], (err, results) => {
     if (err) {
       console.error('Error updating heater state in the database:', err);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -66,14 +66,14 @@ router.post('/turn-heater-on-off', authenticateToken, (req, res) => {
     res.json({ state});
   });
 });
-// Route to get the state of the meter based on the MeterDRN from the token
+// Route to get the state of the meter based on the DRN from the token
 router.get('/get-meter-state', authenticateToken, (req, res) => {
-  const { MeterDRN } = req.tokenPayload;
-  console.log(MeterDRN);
+  const { DRN } = req.tokenPayload;
+  console.log(DRN);
   // Query the database to get the current state of the meter
-  const selectQuery = 'SELECT state FROM MeterMainsStateTable WHERE MeterDRN = ?';
+  const selectQuery = 'SELECT state FROM MeterMainsStateTable WHERE DRN = ?';
 
-  connection.query(selectQuery, [MeterDRN], (err, results) => {
+  connection.query(selectQuery, [DRN], (err, results) => {
     if (err) {
       console.error('Error querying meter state from the database:', err);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -92,12 +92,12 @@ router.get('/get-meter-state', authenticateToken, (req, res) => {
 
 // Route to get the state of the heater based on the heaterID from the token
 router.get('/get-heater-state', authenticateToken, (req, res) => {
-  const { MeterDRN } = req.tokenPayload;
+  const { DRN } = req.tokenPayload;
 
   // Query the database to get the current state of the heater
-  const selectQuery = 'SELECT state FROM MeterHeaterStateTable WHERE MeterDRN = ?';
+  const selectQuery = 'SELECT state FROM MeterHeaterStateTable WHERE DRN = ?';
 
-  connection.query(selectQuery, [MeterDRN], (err, results) => {
+  connection.query(selectQuery, [DRN], (err, results) => {
     if (err) {
       console.error('Error querying heater state from the database:', err);
       return res.status(500).json({ error: 'Internal Server Error' });

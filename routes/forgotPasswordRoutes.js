@@ -36,7 +36,7 @@ router.post('/forgot-password', async (req, res) => {
 
   try {
     // Check if the email exists in the database
-    const [rows] = await query('SELECT * FROM users WHERE email = ?', [Email]);
+    const [rows] = await query('SELECT * FROM SystemUsers WHERE email = ?', [Email]);
 
     if (!rows || rows.length === 0) {
       return res.status(404).json({ error: 'Email not found' });

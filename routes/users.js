@@ -55,10 +55,10 @@ router.get('/', function(req, res, next) {
 
 // Sign-Up route
 router.post('/signup', async (req, res) => {
-  const { Username, Password, FirstName, MeterDRN, LastName, Email, IsActive, RoleName } = req.body;
+  const { Username, Password, FirstName, DRN, LastName, Email, IsActive, RoleName } = req.body;
 
   // Validate inputs
-  if (!Username || !Password || !FirstName || !MeterDRN || !LastName || !Email || !IsActive || !RoleName || !validateEmail(Email)) {
+  if (!Username || !Password || !FirstName || !DRN || !LastName || !Email || !IsActive || !RoleName || !validateEmail(Email)) {
     return res.status(400).json({ error: 'Invalid input data' });
   }
 
@@ -69,8 +69,8 @@ router.post('/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(Password, 10);
 
     connection.query(
-      'INSERT INTO users (Username, Password, FirstName, MeterDRN, LastName, Email, IsActive, RoleName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [Username, hashedPassword, FirstName, MeterDRN, LastName, Email, IsActive, RoleName],
+      'INSERT INTO SystemUsers (Username, Password, FirstName, DRN, LastName, Email, IsActive, RoleName) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [Username, hashedPassword, FirstName, DRN, LastName, Email, IsActive, RoleName],
       (err, result) => {
         if (err) {
           console.error('Registration error:', err);
@@ -128,23 +128,23 @@ router.post('/signin', (req, res) => {
       //   {
       //     UserID: user.UserID,
       //     Email: user.Email,
-      //     MeterDRN: user.MeterDRN,
+      //     DRN: user.DRN,
       //     // Include other user data as needed
       //   },
       //   process.env.SECRET_KEY,
       //   { expiresIn: '30m' }
       // );
 
-      // Getting the user profile based on MeterDRN
+      // Getting the user profile based on DRN
 const findUserQuery = 'SELECT Lat, Longitude FROM MeterLocationInfoTable WHERE DRN = ?';
 
-connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
+connection.query(findUserQuery, [user.DRN], (error, results) => {
   if (error) {
     return res.status(500).json({ error: 'Database query failed', details: error });
   }
 
   if (results.length === 0) {
-    return res.status(404).json({ error: 'User not found', details: 'The user with the provided MeterDRN is not found.' });
+    return res.status(404).json({ error: 'User not found', details: 'The user with the provided DRN is not found.' });
   }
 
   const userLocation = results[0];
@@ -164,7 +164,7 @@ connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
 
       // additional user information in the response
       const userData = {
-        MeterDRN: user.MeterDRN,
+        DRN: user.DRN,
         UserID: user.UserID,
         FirstName: user.FirstName,
         LastName: user.LastName,
@@ -178,7 +178,7 @@ connection.query(findUserQuery, [user.MeterDRN], (error, results) => {
       const token = jwt.sign(
         {
           UserID: user.UserID,
-          MeterDRN:user.MeterDRN,
+          DRN:user.DRN,
           Email: user.Email,
           AccessLevel: user.AccessLevel,
           FirstName: user.FirstName,
@@ -263,7 +263,7 @@ router.get('/getUser/:UserID', (req, res) => {
 
     // Omitting sensitive information like passwords before sending the response
     const user = {
-      MeterDRN: user.MeterDRN,
+      DRN: user.DRN,
       UserID: user.UserID,
       FirstName: user.FirstName,
       LastName: user.LastName,

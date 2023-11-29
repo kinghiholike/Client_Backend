@@ -14,12 +14,12 @@ dotenv.config();
   //Router to update electricity oken
 router.post('/update-token', authenticateToken, async (req, res) => {
     try {
-      const { MeterDRN } = req.params;
+      const { DRN } = req.params;
       const { token_ID, user } = req.body;
   
       // Update the database with the new token, reason, and user
-      const updateQuery = 'UPDATE SendSTSToken SET token_ID = ?, user = ? WHERE MeterDRN = ?';
-      await connection.query(updateQuery, [token_ID,  user, MeterDRN]);
+      const updateQuery = 'UPDATE SendSTSToken SET token_ID = ?, user = ? WHERE DRN = ?';
+      await connection.query(updateQuery, [token_ID,  user, DRN]);
   
       res.status(200).json({ success: true, message: 'Token updated successfully' });
     } catch (error) {

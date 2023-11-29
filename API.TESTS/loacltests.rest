@@ -1,0 +1,53 @@
+post http://localhost:5000/update-token
+authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIyNiIsIk1ldGVyRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYmFydUBwdWxzYXJlbGVjdHJvbmljLmNvbSIsIkFjY2Vzc0xldmVsIjowLCJGaXJzdE5hbWUiOiJNdWsiLCJMYXN0TmFtZSI6IktlbmR3YSIsImFkZHJlc3NDb21wb25lbnRzIjpbIkMyR1crNUNKIiwiV2luZGhvZWsiLCJOYW1pYmlhIl0sImlhdCI6MTcwMTA5NTEzNywiZXhwIjoxNzAxMDk2OTM3fQ.mznU7fXZOdg8vnBnVtwOwM1ZsmF3g0QfVLv4RhGKN9s
+Content-Type: application/json
+
+{
+  "token_ID": 52803328873851406767,
+  "user": "King"
+}
+###
+post http://localhost:5000/turn-meter-on-off
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYWRtaW5AcHVsc2FyLmNvbSIsIkFjY2Vzc0xldmVsIjoxLCJGaXJzdE5hbWUiOiJBZG1pbiIsIkxhc3ROYW1lIjoiUHVsc2FyIiwiYWRkcmVzc0NvbXBvbmVudHMiOlsiQzJHVys1Q0oiLCJXaW5kaG9layIsIk5hbWliaWEiXSwiaWF0IjoxNzAxMjczODA4LCJleHAiOjE3MDEyNzU2MDh9.Pgqd5ITpOKFPXoKePAV15AMT1jr5IrElH7GecKKSE8s
+
+{
+  
+  "state": "0",
+  "reason": "test",
+  "user": "King"
+}
+
+###
+
+post http://localhost:5000/turn-heater-on-off
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYWRtaW5AcHVsc2FyLmNvbSIsIkFjY2Vzc0xldmVsIjoxLCJGaXJzdE5hbWUiOiJBZG1pbiIsIkxhc3ROYW1lIjoiUHVsc2FyIiwiYWRkcmVzc0NvbXBvbmVudHMiOlsiQzJHVys1Q0oiLCJXaW5kaG9layIsIk5hbWliaWEiXSwiaWF0IjoxNzAxMjczODA4LCJleHAiOjE3MDEyNzU2MDh9.Pgqd5ITpOKFPXoKePAV15AMT1jr5IrElH7GecKKSE8s
+Content-Type: application/json
+
+{
+  "state": "0",
+  "reason": "test",
+  "user": "king"
+}
+
+###
+get http://localhost:5000/get-heater-state
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYWRtaW5AcHVsc2FyLmNvbSIsIkFjY2Vzc0xldmVsIjoxLCJGaXJzdE5hbWUiOiJBZG1pbiIsIkxhc3ROYW1lIjoiUHVsc2FyIiwiYWRkcmVzc0NvbXBvbmVudHMiOlsiQzJHVys1Q0oiLCJXaW5kaG9layIsIk5hbWliaWEiXSwiaWF0IjoxNzAxMjczODA4LCJleHAiOjE3MDEyNzU2MDh9.Pgqd5ITpOKFPXoKePAV15AMT1jr5IrElH7GecKKSE8s
+
+####
+get http://localhost:5000/get-meter-state
+Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYWRtaW5AcHVsc2FyLmNvbSIsIkFjY2Vzc0xldmVsIjoxLCJGaXJzdE5hbWUiOiJBZG1pbiIsIkxhc3ROYW1lIjoiUHVsc2FyIiwiYWRkcmVzc0NvbXBvbmVudHMiOlsiQzJHVys1Q0oiLCJXaW5kaG9layIsIk5hbWliaWEiXSwiaWF0IjoxNzAxMjczODA4LCJleHAiOjE3MDEyNzU2MDh9.Pgqd5ITpOKFPXoKePAV15AMT1jr5IrElH7GecKKSE8s
+
+####
+post http://localhost:5000/signin 
+Content-Type: application/json   
+
+{
+    "Email": "admin@pulsar.com",
+    "Password": "Admin@123"
+    
+    
+    
+}
