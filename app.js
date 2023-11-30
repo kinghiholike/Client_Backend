@@ -18,7 +18,7 @@ const meterTokenRoutes = require('./routes/meterTokenRoutes');
 
 
 // const corsOptions = require('cors');
-//Rate limiter 
+// Rate limiter 
 // const limiter = rateLimit({
 //   windowMs: 1 * 60 * 1000, // 1 minute
 //   max: 5, // limit each IP to 5 requests per windowMs

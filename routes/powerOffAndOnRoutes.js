@@ -15,8 +15,10 @@ const environment = process.env;
 
 // Route to turn the meter on or off based on the DRN from the token
 router.post('/turn-meter-on-off', authenticateToken, (req, res) => {
-  const { DRN } = req.tokenPayload;
-  const { state, reason, user } = req.body;
+  const { DRN , FirstName:user} = req.tokenPayload;
+  const { state, reason } = req.body;
+  
+
 
   // Validate the request body
   if (state === undefined || (state !== "0" && state !== "1")) {
@@ -42,8 +44,8 @@ router.post('/turn-meter-on-off', authenticateToken, (req, res) => {
 
 // Route to turn the heater on or off based on the heaterID from the token
 router.post('/turn-heater-on-off', authenticateToken, (req, res) => {
-  const { DRN } = req.tokenPayload;
-  const { state, reason, user } = req.body;
+  const { DRN, FirstName: user } = req.tokenPayload;
+  const { state, reason } = req.body;
 
   // Validate the request body
   if (state === undefined || (state !== "0" && state !== "1")) {
@@ -53,14 +55,15 @@ router.post('/turn-heater-on-off', authenticateToken, (req, res) => {
   // // Update the heater state based on the request
   // heaterStatus[DRN] = state;
 
-  // Update the MySQL database
-  const updateQuery = 'UPDATE MeterHeaterControlTable SET state = ?, reason = ?, user = ? WHERE DRN = ?';
+  // Update the MySQL database for the heater
+const updateQuery = 'UPDATE MeterHeaterControlTable SET state = ?, reason = ?, user = ? WHERE DRN = ?';
 
-  connection.query(updateQuery, [state, reason, user, DRN], (err, results) => {
-    if (err) {
-      console.error('Error updating heater state in the database:', err);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
+connection.query(updateQuery, [state, reason, user, DRN], (err, results) => {
+  if (err) {
+    console.error('Error updating heater state in the database:', err);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+
 
     // Respond with the updated state
     res.json({ state});

@@ -1,10 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const NodeGeocoder = require('node-geocoder');
+const authenticateToken = require('../middleware/axtractMeterdrn');
 const request = require('request');
 
 const config = process.env;
@@ -55,7 +56,7 @@ router.get('/', function(req, res, next) {
 
 // Sign-Up route
 router.post('/signup', async (req, res) => {
-  const { Username, Password, FirstName, DRN, LastName, Email, IsActive, RoleName } = req.body;
+  const { Password, FirstName, DRN, LastName, Email } = req.body;
 
   // Validate inputs
   if (!Username || !Password || !FirstName || !DRN || !LastName || !Email || !IsActive || !RoleName || !validateEmail(Email)) {
@@ -116,114 +117,45 @@ router.post('/signin', (req, res) => {
         return res.status(401).json({ error: 'Authentication failed', details: 'Incorrect password.' });
       }
 
-      // Set user data in the session
-      req.session.user = {
-        UserID: user.UserID,
-        Email: user.Email,
-        AccessLevel: user.AccessLevel,
-      };
-
-      // // Generate a JWT with user's AccessLevel and other user data
-      // const token = jwt.sign(
-      //   {
-      //     UserID: user.UserID,
-      //     Email: user.Email,
-      //     DRN: user.DRN,
-      //     // Include other user data as needed
-      //   },
-      //   process.env.SECRET_KEY,
-      //   { expiresIn: '30m' }
-      // );
-
-      // Getting the user profile based on DRN
-const findUserQuery = 'SELECT Lat, Longitude FROM MeterLocationInfoTable WHERE DRN = ?';
-
-connection.query(findUserQuery, [user.DRN], (error, results) => {
-  if (error) {
-    return res.status(500).json({ error: 'Database query failed', details: error });
-  }
-
-  if (results.length === 0) {
-    return res.status(404).json({ error: 'User not found', details: 'The user with the provided DRN is not found.' });
-  }
-
-  const userLocation = results[0];
-  const latitude = userLocation.Lat;
-  const longitude = userLocation.Longitude;
-
-  // Perform reverse geocoding to get location information
-  geocoder.reverse({ lat: latitude, lon: longitude })
-    .then((geocodingRes) => {
-      const formattedAddress = geocodingRes[0].formattedAddress;
-
-      // components from the formatted address
-      const addressComponents = formattedAddress.split(', ');
-
-      // format of data
-      const [streetName, cityName, countryName] = addressComponents;
-
-      // additional user information in the response
-      const userData = {
-        DRN: user.DRN,
-        UserID: user.UserID,
-        FirstName: user.FirstName,
-        LastName: user.LastName,
-        Email: user.Email,
-        streetName,
-        cityName,
-        countryName,
-      };
-
       // Generate a JWT with user's AccessLevel
       const token = jwt.sign(
         {
           UserID: user.UserID,
-          DRN:user.DRN,
+          DRN: user.DRN,
           Email: user.Email,
-          AccessLevel: user.AccessLevel,
           FirstName: user.FirstName,
           LastName: user.LastName,
-          addressComponents
         },
         environment.SECRET_KEY,
         { expiresIn: '30m' }
       );
 
       // Set the token in a cookie
-      res.cookie('accessToken=', token, {
+      res.cookie('accessToken', token, {
         httpOnly: false,
         credentials: 'include',
         maxAge: 40 * 60 * 1000, // 30 minutes in milliseconds
       });
 
-      // Send the response with both token and userData
+      // Send the response with both token and user data
       res.status(200).json({
-        message: 'User profile pulled successfully',
-        userData,
+        message: 'User signed in successfully',
         token,
         redirect: (`/protected?token=${encodeURIComponent(token)}`)
-        
       });
-    })
-    .catch((geocodingError) => {
-      console.error('Error fetching location:', geocodingError);
-      res.status(500).json({ error: 'Error fetching location', details: geocodingError.message });
-    });
-});
-
     });
   });
 });
 
 // The /protected route remains the same as before
-router.get('/protected', authenticateToken, (req, res) => {
-  // Access user data from req.user
-  const userData = req.user;
+router.get('/protected', authenticatetoken, (req, res) => {
+  
+  
 
-  res.json({ message: 'Protected resource accessed', userData });
+  res.json({ message: 'Protected resource accessed' });
 });
 
-function authenticateToken(req, res, next) {
+function authenticatetoken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = req.query.token || (authHeader && authHeader.split(' ')[1]);
 
@@ -243,36 +175,68 @@ function authenticateToken(req, res, next) {
 }
 
 
-//Router to get user data 
+// Get user information based on DRN route
+router.get('/userData',authenticateToken, (req, res) => {
+  const { DRN,UserID,FirstName,LastName,Email } = req.tokenPayload;
 
-router.get('/getUser/:UserID', (req, res) => {
-  const { UserID } = req.params;
-  console.log('UserID:', UserID);
+  // Getting the user profile based on DRN
+  const findUserQuery = 'SELECT Lat, Longitude FROM MeterLocationInfoTable WHERE DRN = ?';
 
-  // Find the user by UserID
-  const findUser = 'SELECT * FROM users WHERE UserID = ?';
-  connection.query(findUser, [UserID], (err, results) => {
-    if (err) {
-      console.error('Error querying the database:', err);
-      return res.status(500).json({ error: 'Database query failed', details: err });
+  connection.query(findUserQuery, [DRN], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database query failed', details: error });
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: 'User not found', details: 'The user with the provided email is not found.' });
+      return res.status(404).json({ error: 'User not found', details: 'The user with the provided DRN is not found.' });
     }
 
-    // Omitting sensitive information like passwords before sending the response
-    const user = {
-      DRN: user.DRN,
-      UserID: user.UserID,
-      FirstName: user.FirstName,
-      LastName: user.LastName,
-      Email: user.Email,
-    };
+    const userLocation = results[0];
+    const latitude = userLocation.Lat;
+    const longitude = userLocation.Longitude;
 
-    res.status(200).json({ message: 'User profile retrieved successfully', user ,
-    redirect: `/protected?token=${encodeURIComponent(token)}`
-  });
+    // Perform reverse geocoding to get location information
+    geocoder.reverse({ lat: latitude, lon: longitude })
+      .then((geocodingRes) => {
+        const formattedAddress = geocodingRes[0].formattedAddress;
+
+        // components from the formatted address
+        const addressComponents = formattedAddress.split(', ');
+
+        // format of data
+        const [streetName, cityName, countryName] = addressComponents;
+
+        // additional user information in the response
+        // const userData = {
+        //   UserID: UserID,
+        //   FirstName: FirstName,
+        //   LastName: LastName,
+        //   DRN: DRN,
+        //   Email: Email,
+        //   streetName,
+        //   cityName,
+        //   countryName,
+        // };
+
+        // Send the response with user data
+        res.status(200).json({
+          UserID: UserID,
+          FirstName: FirstName,
+          LastName: LastName,
+          DRN: DRN,
+          Email: Email,
+          streetName,
+          cityName,
+          countryName,
+         
+        });
+      })
+      .catch((geocodingError) => {
+        console.error('Error fetching location:', geocodingError);
+        res.status(500).json({ error: 'Error fetching location', details: geocodingError.message });
+      });
   });
 });
+
+
 module.exports = router;
