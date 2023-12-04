@@ -14,7 +14,7 @@ dotenv.config();
   //Router to update electricity oken
 router.post('/update-token', authenticateToken, async (req, res) => {
     try {
-      const { DRN } = req.params;
+      const { DRN } = req.tokenPayload;
       const { token_ID, user } = req.body;
   
       // Update the database with the new token, reason, and user

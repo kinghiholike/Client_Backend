@@ -46,6 +46,7 @@ app.use('/', require('./routes/users'));
 app.use('/', require('./routes/forgotPasswordRoutes'));
 app.use('/', require('./routes/powerOffAndOnRoutes'));
 app.use('/', require('./routes/meterTokenRoutes'));
+app.use('/', require('./routes/meterDataRoutes'));
 
 const db = require('./db');
 
