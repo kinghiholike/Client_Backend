@@ -1,63 +1,37 @@
-var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
-const enviroment = process.env;
 const cors = require('cors');
 const request = require('request');
+const dotenv = require('dotenv'); // Import dotenv
+const app = express();
+dotenv.config();
+const environment = process.env;
+// CORS configuration
+const corsOptions = {
+  origin: 'http://gridxmeter.com', 
+  credentials: true,
+  optionSuccessStatus: 200,
+};
 
-const rateLimit = require('express-rate-limit');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-// const { expireCookieMiddleware } = require('./middleware/cookieMiddleware');
-const forgotPasswordRoutes = require('./routes/forgotPasswordRoutes');
-const powerOffAndOnRoutes = require('./routes/powerOffAndOnRoutes');
-const meterTokenRoutes = require('./routes/meterTokenRoutes');
+app.use(cors(corsOptions));
 
-
-// const corsOptions = require('cors');
-// Rate limiter 
-// const limiter = rateLimit({
-//   windowMs: 1 * 60 * 1000, // 1 minute
-//   max: 5, // limit each IP to 5 requests per windowMs
-//   message: 'Too many requests, please try again later.',
-// });
-
-var app = express();
-
-
-
-app.use(cors({
-origin: ['http://localhost:3000','http://gridxmeter.com/'], 
-credentials: true,
-optionSuccessStatus: 200,}
-  
-));
 app.use(
   session({
-    secret: enviroment.SECRET_KEY, 
+    secret: environment.SECRET_KEY,
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: false ,
-      maxAge: 30 * 60 * 1000}, 
+    cookie: { secure: false, maxAge: 30 * 60 * 1000 },
   })
-)
+);
 
 app.use(logger('dev'));
 app.use(express.json());
-// app.use(limiter);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(expireCookieMiddleware);
 app.use(express.static(path.join(__dirname, 'public')));
-
-
-
-
-
-
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -66,13 +40,14 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.use('/', indexRouter);
-app.use('/', usersRouter);
-app.use('/', forgotPasswordRoutes);
-app.use('/', powerOffAndOnRoutes);
-app.use('/' , meterTokenRoutes);
+// Your other route setups
+app.use('/', require('./routes/index'));
+app.use('/', require('./routes/users'));
+app.use('/', require('./routes/forgotPasswordRoutes'));
+app.use('/', require('./routes/powerOffAndOnRoutes'));
+app.use('/', require('./routes/meterTokenRoutes'));
 
-const db = require('./db'); // Import the database connection from db.js
+const db = require('./db');
 
 db.connect((err) => {
   if (err) {
@@ -80,8 +55,9 @@ db.connect((err) => {
     return;
   }
   console.log("Successfully connected to AWS RDS database");
-  app.listen(process.env.PORT || 5000, () => {
-    console.log(`Server is running on port ${process.env.PORT || 5000}`);
+  const port = process.env.PORT || 5000;
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
   });
 });
 

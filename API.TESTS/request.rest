@@ -25,7 +25,7 @@ Content-Type: application/json
     
 }
 ###
-get http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/protected?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYWRtaW5AcHVsc2FyLmNvbSIsIkZpcnN0TmFtZSI6IkFkbWluIiwiTGFzdE5hbWUiOiJQdWxzYXIiLCJpYXQiOjE3MDEzMzY4NDIsImV4cCI6MTcwMTMzODY0Mn0.i9w5euQmTzNB8on-z56zYFWHA5vIsZ1VWF4yE2gR564
+get http://ec2-52-4-15-67.compute-1.amazonaws.com:5000/protected?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxIiwiRFJOIjoiMDI2MDE1Mjg3NzkyNCIsIkVtYWlsIjoiYWRtaW5AcHVsc2FyLmNvbSIsIkZpcnN0TmFtZSI6IkFkbWluIiwiTGFzdE5hbWUiOiJQdWxzYXIiLCJpYXQiOjE3MDEzNTk0MzcsImV4cCI6MTcwMTM2MTIzN30.TCX2SXt9WLg03fg7yLQCmo47cKhZWS-3PliCOJvTIb4
 
 
 ###
