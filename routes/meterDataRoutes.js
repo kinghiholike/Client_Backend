@@ -47,7 +47,7 @@ router.get('/meterPower', authenticateToken, (req, res) => {
       }
 
       // Query the database to get the current state of the meter signal and energy
-      const selectQueryUnit_ActiveEnergy = 'SELECT active_energy, units FROM metercumulativeenergyusage WHERE DRN = ?';
+      const selectQueryUnit_ActiveEnergy = 'SELECT active_energy, units FROM MeterCumulativeEnergyUsage WHERE DRN = ?';
 
       connection.query(selectQueryUnit_ActiveEnergy, [DRN], (errUnitActiveEnergy, resultsActiveEnergy) => {
         if (errUnitActiveEnergy) {

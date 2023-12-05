@@ -130,13 +130,15 @@ router.post('/signin', (req, res) => {
         { expiresIn: '30m' }
       );
 
-      // Set the token in a cookie
       res.cookie('accessToken', token, {
         httpOnly: false,
         credentials: 'include',
-        maxAge: 40 * 60 * 1000, // 30 minutes in milliseconds
+        maxAge: 40 * 60 * 1000,
+        domain: 'gridxmeter.com', // Set to your actual domain
+        path: '/', // Set to the path where your application is hosted, usually '/'
+        secure: true, // Set to true if your application uses HTTPS
       });
-
+      
       // Send the response with both token and user data
       res.status(200).json({
         message: 'User signed in successfully',
@@ -236,6 +238,17 @@ router.get('/userData',authenticateToken, (req, res) => {
         res.status(500).json({ error: 'Error fetching location', details: geocodingError.message });
       });
   });
+});
+
+// Sign-Out route
+router.post('/signout', (req, res) => {
+  // Clear the 'accessToken' cookie
+  res.clearCookie('accessToken');
+
+  
+
+  // Send a response indicating successful sign-out
+  res.status(200).json({ message: 'User signed out successfully' });
 });
 
 
