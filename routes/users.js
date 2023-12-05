@@ -135,7 +135,6 @@ router.post('/signin', (req, res) => {
         maxAge: 40 * 60 * 1000,
         domain: 'gridxmeter.com',
         path: '/',
-        secure: false,
         sameSite: 'None', 
       });
 
