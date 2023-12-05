@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
+
 const session = require('express-session');
 const NodeGeocoder = require('node-geocoder');
 const authenticateToken = require('../middleware/axtractMeterdrn');
@@ -16,7 +16,6 @@ const dotenv = require('dotenv'); // Import dotenv
 const connection = require("../db");
 const e = require('cors');
 const { cookie } = require('request');
-router.use(cookieParser());
 
 dotenv.config();
 const environment = process.env;
@@ -97,7 +96,6 @@ router.post('/signin', (req, res) => {
   connection.query(findUserQuery, [Email], (err, results) => {
     if (err) {
       console.error('Error querying the database:', err);
-      console.log(err);
       return res.status(500).json({ error: 'Database query failed', details: err });
     }
 
@@ -127,18 +125,24 @@ router.post('/signin', (req, res) => {
           LastName: user.LastName,
         },
         environment.SECRET_KEY,
-        { expiresIn: '30m' }
+        { expiresIn: '1h' } // Adjust the expiration time as needed
       );
 
+      // Set the cookies for cross-origin requests
+      res.cookie('cookie', 'token', { domain: 'gridxmeter.com' });
       res.cookie('accessToken', token, {
         httpOnly: false,
-        credentials: 'include',
         maxAge: 40 * 60 * 1000,
-        domain: 'gridxmeter.com', // Set to your actual domain
-        path: '/', // Set to the path where your application is hosted, usually '/'
-        secure: true, // Set to true if your application uses HTTPS
+        domain: 'gridxmeter.com',
+        path: '/',
+        secure: false,
+        sameSite: 'None', 
       });
-      
+
+      // Set CORS headers
+      res.header('Access-Control-Allow-Origin', 'https://gridxmeter.com'); 
+      res.header('Access-Control-Allow-Credentials', true);
+
       // Send the response with both token and user data
       res.status(200).json({
         message: 'User signed in successfully',

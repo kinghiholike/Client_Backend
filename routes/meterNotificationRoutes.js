@@ -31,7 +31,7 @@ router.post('/setNotifications', authenticateToken, (req, res) => {
     const upsertQuery = `
       INSERT INTO MeterNotifications (DRN, Alarm, AlarmType, Urgency_Type)
       VALUES (?, ?, ?, ?)
-      ON DUPLICATE KEY UPDATE Alarm = VALUES(Alarm), AlarmType = VALUES(AlarmType), Urgency_Type = VALUES(Urgency_Type)
+      
     `;
   
     connection.query(upsertQuery, [DRN, Alarm, AlarmType, Urgency_Type], (err) => {
@@ -46,31 +46,34 @@ router.post('/setNotifications', authenticateToken, (req, res) => {
   
 // Route to get the state of the meter based on the DRN from the token
 router.get('/getNotifications', authenticateToken, (req, res) => {
-    const { DRN } = req.tokenPayload;
-    console.log(DRN);
-    // Query the database to get the current state of the meter
-    const selectQuery = 'SELECT Alarm, AlarmType, Urgency_Type FROM MeterNotifications WHERE DRN = ?';
-  
-    connection.query(selectQuery, [DRN], (err, results) => {
-      if (err) {
-        console.error('Error querying meter state from the database:', err);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-  
-      if (results.length === 0) {
-        return res.status(404).json({ error: 'Meter not found in the database' });
-      }
-  
-      // object containing the meter notifications
-    const meterNotification = {
-        Alarm: results[0].Alarm,
-        AlarmType: results[0].AlarmType,
-        Urgency_Type: results[0].Urgency_Type,
-      };
-  
-      // Respond with the current state of the meter
-      res.json( meterNotification);
-    });
+  const { DRN } = req.tokenPayload;
+  console.log(DRN);
+  // Query the database to get the current state of the meter
+  const selectQuery = 'SELECT Alarm, AlarmType, Urgency_Type FROM MeterNotifications WHERE DRN = ?';
+
+  connection.query(selectQuery, [DRN], (err, results) => {
+    if (err) {
+      console.error('Error querying meter state from the database:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Meter not found in the database' });
+    }
+
+    // Extracting values from each row in the results
+    const notifications = results.map(( {Alarm, AlarmType, Urgency_Type }) => ({
+      Alarm,
+      AlarmType,
+      Urgency_Type,
+    }));
+
+    // Respond with an array of values
+    res.json(
+     notifications
+    );
   });
+});
+
 
 module.exports = router;
