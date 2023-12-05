@@ -29,7 +29,7 @@ router.post('/setNotifications', authenticateToken, (req, res) => {
   
     // Insert or update the meter notifications in the database
     const upsertQuery = `
-      INSERT INTO meternotifications (DRN, Alarm, AlarmType, Urgency_Type)
+      INSERT INTO MeterNotifications (DRN, Alarm, AlarmType, Urgency_Type)
       VALUES (?, ?, ?, ?)
       ON DUPLICATE KEY UPDATE Alarm = VALUES(Alarm), AlarmType = VALUES(AlarmType), Urgency_Type = VALUES(Urgency_Type)
     `;
@@ -49,7 +49,7 @@ router.get('/getNotifications', authenticateToken, (req, res) => {
     const { DRN } = req.tokenPayload;
     console.log(DRN);
     // Query the database to get the current state of the meter
-    const selectQuery = 'SELECT Alarm, AlarmType, Urgency_Type FROM meternotifications WHERE DRN = ?';
+    const selectQuery = 'SELECT Alarm, AlarmType, Urgency_Type FROM MeterNotifications WHERE DRN = ?';
   
     connection.query(selectQuery, [DRN], (err, results) => {
       if (err) {
